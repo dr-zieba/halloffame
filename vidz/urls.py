@@ -40,7 +40,7 @@ urlpatterns = [
     # Video
     path("halloffame/<int:pk>/add-video", views.add_video, name="add-video"),
     path("video/search", views.video_search, name="search-video"),
-    path("video/<int:pk>/delete", views.DeleteVideo.as_view(), name='delete-video'),
+    path("video/<int:pk>/delete", views.DeleteVideo.as_view(), name="delete-video"),
 ]
 
 # append static to urls

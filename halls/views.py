@@ -21,7 +21,9 @@ def home(request):
 
 
 def dashboard(request):
-    return render(request, "halls/dashboard.html", {})
+    hall = Hall.objects.filter(user=request.user)
+    context = {"hall": hall}
+    return render(request, "halls/dashboard.html", context)
 
 
 def add_video(request, pk):
@@ -43,9 +45,7 @@ def add_video(request, pk):
                     f"https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id={video_id[0]}&key={settings.YOUTUBE_API_KEY}"
                 )
                 json = response.json()
-                title = (
-                    json["items"][0]["snippet"]["title"]
-                )
+                title = json["items"][0]["snippet"]["title"]
                 form.title = title
                 form.hall = hall
                 form.save()
@@ -103,7 +103,7 @@ class DetailHall(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['details'] = self.object.video_set.all()
+        context["details"] = self.object.video_set.all()
         return context
 
 
@@ -119,17 +119,16 @@ class UpdateHall(generic.UpdateView):
 class DeleteHall(generic.DeleteView):
     model = Hall
     template_name = "halls/delete.html"
-    #success_url = reverse_lazy('dashboard')
+    # success_url = reverse_lazy('dashboard')
 
     def get_success_url(self, **kwargs):
         return reverse_lazy("detail-hall", args=(self.object.id,))
 
 
-
 class DeleteVideo(generic.DeleteView):
     model = Video
     template_name = "halls/delete_video.html"
-    #success_url = reverse_lazy('dashboard')
+    # success_url = reverse_lazy('dashboard')
 
     def get_success_url(self):
-        return reverse_lazy('detail-hall', args=(self.object.hall.id,))
+        return reverse_lazy("detail-hall", args=(self.object.hall.id,))
