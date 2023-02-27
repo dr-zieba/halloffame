@@ -3,38 +3,38 @@
 {% block content %}
 
 <div class="container">
-  <h3>Add video to {{ hall.title }}</h3>
-  <form method="post" action="" id="submit_video">
-    {% csrf_token %}
-    {% load widget_tweaks %}
-    {% if errors %}
-      <p>Not a YT</p>
-    {% else %}
-    {% for field in form %}
-    <div class="form-group {% if errors %} alert alert-danger {% endif %}">
-      {{ field.errors }}
-      {{ field.label_tag }}
-      {% render_field field class="form-control" %}
-    </div>
-    {% endfor %}
-    <button type="submit" class="btn btn-primary">Add video</button>
-    {% endif %}
-  </form>
-  <br/>
-  <h2>OR</h2>
-  <form method="post" action="">
-    {% csrf_token %}
-    {% for field in search_form %}
-    <div class="form-group">
-      {{ field.errors }}
-      {{ field.label_tag }}
-      {% render_field field class="form-control" %}
-    </div>
-    {% endfor %}
-  </form>
+    <h3>Add video to {{ hall.title }}</h3>
+    <form method="post" action="" id="submit_video">
+        {% csrf_token %}
+        {% load widget_tweaks %}
+        {% if errors %}
+        <p>Not a YT</p>
+        {% else %}
+        {% for field in form %}
+        <div class="form-group {% if errors %} alert alert-danger {% endif %}">
+            {{ field.errors }}
+            {{ field.label_tag }}
+            {% render_field field class="form-control" %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Add video</button>
+        {% endif %}
+    </form>
+    <br/>
+    <h2>OR</h2>
+    <form method="post" action="">
+        {% csrf_token %}
+        {% for field in search_form %}
+        <div class="form-group">
+            {{ field.errors }}
+            {{ field.label_tag }}
+            {% render_field field class="form-control" %}
+        </div>
+        {% endfor %}
+    </form>
 
-  <div id="search_result"></div>
-  <script>
+    <div id="search_result"></div>
+    <script>
     var delayTimer;
     $( '#id_search_term' ).keyup(function() {
       clearTimeout(delayTimer);
@@ -72,6 +72,7 @@
       $('#id_url').val('https://www.youtube.com/watch?v=' + video_id);
       $('#submit_video').submit();
     };
-  </script>
+
+    </script>
 </div>
 {% endblock content%}

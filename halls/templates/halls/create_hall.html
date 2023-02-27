@@ -3,11 +3,18 @@
 {% block content %}
 
 <div class="container">
-  <h3>Create Hall</h3>
-  <form method="post" action="">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+    <h3>Create Hall</h3>
+    <form method="post" action="">
+        {% csrf_token %}
+        {% load widget_tweaks %}
+        {% for field in form %}
+        <div class="form-group {% if errors %} alert alert-danger {% endif %}">
+            {{ field.errors }}
+            {{ field.label_tag }}
+            {% render_field field class="form-control" %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 </div>
 {% endblock content%}

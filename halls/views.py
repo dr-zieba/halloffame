@@ -17,7 +17,9 @@ from django.conf import settings
 
 
 def home(request):
-    return render(request, "halls/home.html", {})
+    newest_halls = Hall.objects.all().order_by("-id")[:3]
+    context = {"halls": newest_halls}
+    return render(request, "halls/home.html", context)
 
 
 def dashboard(request):
@@ -94,7 +96,7 @@ class CreateHall(generic.CreateView):
         form.instance.user = self.request.user
         super(CreateHall, self).form_valid(form)
 
-        return redirect("home")
+        return redirect("dashboard")
 
 
 class DetailHall(generic.DetailView):
